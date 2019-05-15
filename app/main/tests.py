@@ -22,5 +22,3 @@ class ModelTests(TestCase):
         user = get_user_model().objects.create_user(email, "1234")
 
         self.assertEqual(user.email, email.lower())
-
-
