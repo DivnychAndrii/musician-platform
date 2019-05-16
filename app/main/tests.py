@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
+from . import  models
 
 
 class ModelTests(TestCase):
@@ -22,3 +23,4 @@ class ModelTests(TestCase):
         user = get_user_model().objects.create_user(email, "1234")
 
         self.assertEqual(user.email, email.lower())
+

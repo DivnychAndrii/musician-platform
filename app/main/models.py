@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
             PermissionsMixin
+from rest_framework import serializers
 
 
 class UserManager(BaseUserManager):
@@ -35,3 +36,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
+
+
+

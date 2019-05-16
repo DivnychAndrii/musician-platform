@@ -124,3 +124,18 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'main.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        "rest_framework.permissions.AllowAny"
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        "rest_framework_simplejwt.authentication.JWTAuthentication"
+    ),
+    'DEFAULT_RENDER_CLASSES': (
+        "djangorestframework_cale_case.render.CamelCaseJSONRender"
+    ),
+    'DEFAULT_PARSER_CLASSES': (
+        "djangorestframework_cale_case.render.CamelCaseJSONPARSER"
+    ),
+}
