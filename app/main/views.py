@@ -3,10 +3,12 @@ from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.http import HttpResponseRedirect
 from django import forms
 
-
+'''
 def index(request):
 
     return render(request, "index.html",)
+
+'''
 
 
 class UserRegistrationForm(forms.Form):
@@ -47,3 +49,5 @@ def logout_view(request):
 
     logout(request)
     return render(request, 'index.html')
+
+
