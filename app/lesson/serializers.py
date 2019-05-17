@@ -6,7 +6,7 @@ class LessonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lessons
-        fields = ('id', 'tittle', 'video_file', 'pub_date', 'author', 'grade')
+        fields = ('id', 'tittle', 'video_file', 'pub_date', 'author')
 
     def create(self, validated_data):
         """Create a new lesson"""
@@ -15,7 +15,6 @@ class LessonSerializer(serializers.ModelSerializer):
             tittle=validated_data['tittle'],
             video_file=validated_data['video_file'],
             pub_date=validated_data['pub_date'],
-            author=validated_data['author'],
-            grade=validated_data['grade'])
+            author=validated_data['author'])
         lesson.save()
         return lesson

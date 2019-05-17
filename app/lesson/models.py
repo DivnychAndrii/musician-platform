@@ -9,7 +9,6 @@ class Lessons(models.Model):
     video_file = models.FileField(upload_to='')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    grade = models.BooleanField(default=False)
     objects = UserManager()
 
     class Meta:

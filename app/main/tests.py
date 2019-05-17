@@ -41,15 +41,14 @@ class APITestUser(APITestCase):
     def authorize(self, user, **additional_headers):
         token = AccessToken.for_user(user)
         self.client.credentials(
-            HTTP_AUTHORIZATION=f'{settings.SIMPLE_JWT.AUTH_HEADER_TYPES[0]} {token}',
+            HTTP_AUTHORIZATION=f'{settings.SIMPLE_JWT["AUTH_HEADER_TYPES"][0]} {token}',
             **additional_headers
         )
-    '''
+
     def test_create_and_authorize(self, **additional_headers):
         user = self.create_user()
         self.authorize(user, **additional_headers)
         return user
-    '''
 
 
 class TestAuthentication(APITestCase):

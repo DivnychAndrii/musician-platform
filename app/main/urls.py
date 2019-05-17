@@ -8,10 +8,9 @@ from rest_framework_simplejwt.views import (
 
 router = DefaultRouter()
 
-router.register('profile', views.UserProfileViewSet)
+router.register(r'', views.UserProfileViewSet)
 
 urlpatterns = [
-    url(r'', include(router.urls)),
     url(r'^token/$', TokenObtainPairView.as_view(), name='auth'),
     url(r'^token/refresh/$', TokenRefreshView.as_view(), name='auth-refresh'),
-]
+] + router.urls
