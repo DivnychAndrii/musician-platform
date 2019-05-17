@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
             PermissionsMixin
-from rest_framework import serializers
 
 
 class UserManager(BaseUserManager):
@@ -9,7 +8,7 @@ class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
 
         if not email:
-            raise ValueError("Users must have an email address")
+            raise ValueError("Users should have email address connected")
         user = self.model(email=self.normalize_email(email), **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
@@ -36,6 +35,3 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-
-
-
