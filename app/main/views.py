@@ -2,7 +2,6 @@ from django.shortcuts import render
 from rest_framework import viewsets, mixins
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from .permissions import IsGetOrAuthenticated
 from . import serializers, models
 
 

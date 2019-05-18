@@ -6,6 +6,7 @@ router = DefaultRouter()
 
 router.register('', views.LessonViewSet)
 
+
 urlpatterns = [
     url(r'', include(router.urls))
 ]

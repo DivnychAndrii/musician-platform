@@ -14,8 +14,8 @@ urlpatterns = [
     path('', views.index, name="index"),
 ]
 
-# api/auth/profile/id
-# api/lessons/lessons/id
+# api/auth/id
+# api/lessons/id
 
 # docs/profile/id
 # docs/lessons/id/likes
