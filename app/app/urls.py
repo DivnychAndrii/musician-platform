@@ -1,17 +1,22 @@
 from django.contrib import admin
 from django.urls import path, include
-from main import views
+
+from lesson.views import AllLessons
+from main.views import HomePage, Register
 from rest_framework.documentation import include_docs_urls
+
 
 urls = [
     path('auth/', include('main.urls')),
-    path('lessons/', include('lesson.urls')),
+    path('lessons/', include('lesson.urls'), name="lessons"),
 ]
 urlpatterns = [
-    path('docs/', include_docs_urls(title='docs_urls')),
     path('admin/', admin.site.urls),
+    path('docs/', include_docs_urls(title='docs_urls')),
     path('api/', include(urls)),
-    path('', views.index, name="index"),
+    path('', HomePage.as_view(), name='index'),
+    path('register/', Register.as_view(), name='register'),
+    path('all_lessons/', AllLessons.as_view(), name='all_Lessons'),
 ]
 
 # api/auth/id

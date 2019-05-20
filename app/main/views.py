@@ -1,11 +1,17 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
+from django.views import View
 from rest_framework import viewsets, mixins
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from django.contrib.auth import (authenticate, login)
+from main.forms import UserRegisterForm
 from . import serializers, models
 
 
 class UserProfileViewSet(mixins.RetrieveModelMixin,
+                         mixins.CreateModelMixin,
                          mixins.UpdateModelMixin,
                          viewsets.GenericViewSet):
     serializer_class = serializers.UserProfileSerializer
@@ -17,5 +23,42 @@ class UserProfileViewSet(mixins.RetrieveModelMixin,
         return self.request.user
 
 
-def index(request):
-    return render(request, 'index.html')
+class HomePage(View):
+    template = 'home.html'
+
+    def get(self, request):
+        """
+        last_lesson_list = models.Lessons.objects.all().order_by('-pub_date')[:10]
+        print(last_lesson_list)
+        {% for lesson in context %}
+        <p>{{ lesson.tittle }} posted by {{ lesson.author}} </p>
+        {% endfor %}
+        """
+        return render(request, self.template, )
+
+
+class Register(View):
+    template = 'register.html'
+    form = UserRegisterForm
+
+    def get(self, request):
+        form = self.form()
+        context = {
+            'form': form, }
+        return render(request, self.template, context)
+
+    def post(self, request):
+        form = self.form(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+            password = form.cleaned_data.get('password')
+            user.set_password(password)
+            new_user = authenticate(email=user.email, password=password)
+            login(request, new_user)
+            return HttpResponseRedirect(reverse('index'))
+
+        context = {
+            'form': form,
+        }
+        return render(request, self.template, context)

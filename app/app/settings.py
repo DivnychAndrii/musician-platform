@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'main.apps.MainConfig',
     'lesson.apps.LessonConfig',
+    'demand.apps.DemandConfig',
 ]
 
 MIDDLEWARE = [
@@ -122,11 +123,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
+STATIC_ROOT = '/web/static'
+MEDIA_ROOT = '/web/media'
 
 AUTH_USER_MODEL = 'main.User'
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=300),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -155,4 +160,8 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+    'DEFAULT_RENDER_CLASSES': (
+        "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
+        'rest_framework.renderers.BrowsableAPIRenderer',
     )}
