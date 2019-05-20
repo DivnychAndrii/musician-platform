@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 
-from main.views import HomePage, Register
+from main.standart_views import HomePage, Register
 from rest_framework.documentation import include_docs_urls
 
 
