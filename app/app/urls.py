@@ -8,6 +8,7 @@ from rest_framework.documentation import include_docs_urls
 urls = [
     path('auth/', include('main.urls')),
     path('', include('lesson.urls'), name="lessons"),
+    path('', include('demand.urls'), name='demands'),
 ]
 urlpatterns = [
     path('admin/', admin.site.urls),
