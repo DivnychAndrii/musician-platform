@@ -1,4 +1,6 @@
 from rest_framework import serializers
+
+from main.serializers import UserProfileSerializer
 from .models import Lessons, Like
 
 
@@ -15,5 +17,8 @@ class LikesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
         fields = ('lesson', 'user')
+        read_only_fields = ('user', 'lesson')
+
+
 
 

@@ -27,13 +27,6 @@ class HomePage(View):
     template = 'home.html'
 
     def get(self, request):
-        """
-        last_lesson_list = models.Lessons.objects.all().order_by('-pub_date')[:10]
-        print(last_lesson_list)
-        {% for lesson in context %}
-        <p>{{ lesson.tittle }} posted by {{ lesson.author}} </p>
-        {% endfor %}
-        """
         return render(request, self.template, )
 
 
@@ -54,8 +47,6 @@ class Register(View):
             user = form.save()
             password = form.cleaned_data.get('password')
             user.set_password(password)
-            new_user = authenticate(email=user.email, password=password)
-            login(request, new_user)
             return HttpResponseRedirect(reverse('index'))
 
         context = {
