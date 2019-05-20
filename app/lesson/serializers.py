@@ -1,6 +1,4 @@
 from rest_framework import serializers
-
-from main.serializers import UserProfileSerializer
 from .models import Lessons, Like
 
 

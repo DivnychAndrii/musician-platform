@@ -41,8 +41,9 @@ class ApiTestCase(APITestCase):
 
     def test_get_likes(self):
         resp = self.client.get(f'/api/lessons/{self.new_lesson.id}/likes/')
+        print(resp)
         self.assertEqual(resp.status_code, 200)
 
     def test_get_likes_fail(self):
-        resp = self.client.get(f'/api/lessons/{self.new_lesson.id + 200}/likes/')
+        resp = self.client.get(f'/api/lessons/{self.new_lesson.id + 22054}/likes/')
         self.assertEqual(resp.status_code, 404)

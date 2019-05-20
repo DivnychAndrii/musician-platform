@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
-from main.models import User, UserManager
+from main.models import User
 
 
 class Lessons(models.Model):
@@ -10,8 +10,6 @@ class Lessons(models.Model):
     lesson_file = models.ImageField(upload_to='', blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     likes = models.ManyToManyField(User, through='like', related_name="likes")
-
-    objects = UserManager()
 
     class Meta:
         db_table = 'lessons'
