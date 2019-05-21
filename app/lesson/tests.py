@@ -31,19 +31,26 @@ class ApiTestCase(APITestCase):
         resp = self.client.get(f'/api/lessons/{self.new_lesson.id +1000}/')
         self.assertEqual(resp.status_code, 404)
 
-    # def test_lesson_creation(self):
-    #     token = AccessToken.for_user(self.user)
-    #     information = {'title': 'New_test'}
-    #     resp = self.client.post('/api/lessons/',
-    #                             HTTP_AUTHORIZATION=f'{settings.SIMPLE_JWT["AUTH_HEADER_TYPES"][0]} {token}',
-    #                             data=information,)
-    #     self.assertEqual(resp.status_code, 201)
+    def test_lesson_creation(self):
+        information = {'tittle': 'New_test', 'author': self.user.id}
+        resp = self.client.post('/api/lessons/', data=information)
+        self.assertEqual(resp.status_code, 201)
 
-    def test_get_likes(self):
-        resp = self.client.get(f'/api/lessons/{self.new_lesson.id}/likes/')
-        print(resp)
-        self.assertEqual(resp.status_code, 200)
+    def test_lesson_creation_fail_bad_request(self):
+        information = {'tittle': 'New_test', 'fake_author': self.user.id}
+        resp = self.client.post('/api/lessons/', data=information)
+        self.assertEqual(resp.status_code, 400)
 
-    def test_get_likes_fail(self):
-        resp = self.client.get(f'/api/lessons/{self.new_lesson.id + 22054}/likes/')
+    def test_lesson_creation_fail_404(self):
+        information = {'tittle': 'New_test', 'author': self.user.id}
+        resp = self.client.post('/api/lessons_test/', data=information)
         self.assertEqual(resp.status_code, 404)
+
+    # def test_get_likes(self):
+    #     resp = self.client.get(f'/api/lessons/{self.new_lesson.id}/likes/')
+    #     self.assertEqual(resp.status_code, 200)
+    #
+    # def test_get_likes_fail(self):
+    #     resp = self.client.get(f'/api/lessons/{self.new_lesson.id + 22054}/likes/')
+    #     self.assertEqual(resp.status_code, 404)
+
