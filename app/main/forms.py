@@ -7,7 +7,8 @@ from .models import User
 class UserRegisterForm(forms.ModelForm):
     email = forms.EmailField(label='Email address')
     username = forms.CharField(label='username')
-    password = forms.CharField(widget=forms.PasswordInput)
+    password = forms.CharField(widget=forms.PasswordInput, required=True)
+
 
     class Meta:
         model = User
@@ -16,6 +17,15 @@ class UserRegisterForm(forms.ModelForm):
             'password',
             'username'
         ]
+
+    def save(self, commit=True):
+        user = super(UserRegisterForm, self).save(commit=False)
+        password = self.cleaned_data["password"]
+        if password:
+            user.set_password(password)
+        if commit:
+            user.save()
+        return user
 
 
 class SignUpForm(UserCreationForm):

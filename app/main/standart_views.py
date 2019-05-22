@@ -18,15 +18,13 @@ class HomePage(View):
 
 def signup(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        data = {'name': name, 'email': email, 'password': password}
-        form = SignUpForm(data = data)
+        # raise ValueError(form.data)
+        form = UserRegisterForm(data=request.POST.data)
         if form.is_valid():
-            user = form.save(commit=False)
+            user = form.save()
             user.is_active = True
             user.save()
+
             return HttpResponse(json.dumps({"message": "Success"}),content_type="application/json")
         else:
            return HttpResponse(json.dumps({"message":form.errors}),content_type="application/json")

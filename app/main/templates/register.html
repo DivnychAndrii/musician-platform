@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>oy</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -64,7 +64,7 @@
 
                                         <div class="form-group">
                                           <label for="exampleInputLname">Name</label>
-                                          <input type="text" class="form-control" id="exampleInputLname" aria-describedby="emailHelp" placeholder="Name">
+                                          <input type="text" class="form-control" id="exampleInputName" aria-describedby="emailHelp" placeholder="Name">
                                         </div>
 
                                         <div class="form-group">
@@ -73,14 +73,14 @@
                                           <label for="exampleInputEmail">Email address</label>
                                           <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter email">
                                         </div>
-                                        
+
                                         <div class="form-group">
                                         <div id="errorpass" style="color:red">
                                         </div>
                                           <label for="exampleInputPassword1">Create Password</label>
-                                          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" />
+                                          <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password" />
                                         </div>
-                                        <button type="button"  class="btn btn-primary btn-lg btn-block login-btn mb-2 mt-2" style="max-width:500px" onclick="signup()">Sign up</button>
+                                        <button type="button"  class="btn btn-primary btn-lg btn-block login-btn mb-2 mt-2" style="max-width:500px" id="but" >Sign up</button>
                                         {% csrf_token %}
                                       </form>
                             </div>
@@ -92,59 +92,35 @@
             </div>
     </div>
 
-    <script type="text/javascript">
-    function login(){
-        email = document.getElementById("exampleInputUsername").value;
-        password = document.getElementById("exampleInputPassword").value;
-        csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
-        $("#errorlogin").html("");
-        $.ajax({
-            type:"POST",
-            url:'/login/',
-            data:{
-                'csrfmiddlewaretoken': csrfmiddlewaretoken,
-                'email':email,
-                'password':password,
-            },
-            success : function(data){
-                console.log(data);
-                if(data['message'] == "Success"){
-                    location.reload();
-                }
-                else if(data['message'] == "inactive"){
-                    $("#errorlogin").html("Please verify this E-mail address.");
-                }
-                else{
-                    $("#errorlogin").html("The E-mail and Password do not match.");
-                }
-            }
-        });
-    }
-        function signup(){
-            email = document.getElementById("exampleInputEmail").value;
-            name = document.getElementById("exampleInputFname").value;
-            password = document.getElementById("exampleInputPassword1").value;
-            csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
-            $("#erroremail").html("");
-            $("#errorpass").html("");
-            else{
-            $.ajax({
-            type:"POST",
-            url:'/auth/register',
-            data:{
-                'csrfmiddlewaretoken': csrfmiddlewaretoken,
-              'name':name,
-              'email':email,
-              'password':password,
-            },
-            success : function(data){
-                console.log(data['message']);
-                if(data['message'] == "Success"){
-                    window.location = "/"
-                }
+    <script >
+    $(document).ready(function(){
+      console.log(1);
+      $("#but").click(function(){
+        signup();
+      });
+          function signup(){
+              email = document.getElementById("exampleInputEmail").value;
+              name = document.getElementById("exampleInputName").value;
+              password = document.getElementById("exampleInputPassword").value;
+              csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+              $("#erroremail").html("");
+              $("#errorpass").html("");
+              $.ajax({
+                type:"POST",
+                url:'/api/auth/',
+                data:{
+                    'name':name,
+                    'email':email,
+                    'password':password,
+                },
+              success : function(data){
+                  console.log(data['message']);
+                  if(data['message'] == "Success"){
+                      window.location = "/"
+                  }
 
-            }
-        })
-        }
-      }
-    </script>
+              }
+            });
+          }
+        });
+  </script>

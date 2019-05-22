@@ -6,7 +6,7 @@ class LessonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lessons
-        fields = ('id', 'tittle', 'lesson_file', 'pub_date', 'author', 'likes')
+        fields = ('id', 'tittle', 'lesson_file', 'pub_date', 'author')
         read_only_fields = ('id',)
 
 
