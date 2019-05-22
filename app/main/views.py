@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from main.models import User
+from main.permissions import IsGetOrAuthenticated
 from main.serializers import UserProfileSerializer, CreateUserSerializer
 
 
@@ -14,7 +15,7 @@ class UserProfileViewSet(mixins.RetrieveModelMixin,
     serializer_class = UserProfileSerializer
     queryset = User.objects.all()
     authentication_classes = (JWTAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsGetOrAuthenticated,)
 
     def get_object(self):
         return self.request.user
@@ -25,3 +26,4 @@ class CreateUserViewSet(mixins.CreateModelMixin,
 
     permission_classes = (AllowAny,)
     serializer_class = CreateUserSerializer
+

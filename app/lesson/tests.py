@@ -1,9 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework.test import APITestCase
-from rest_framework_simplejwt.tokens import AccessToken
-
 from lesson.models import Lessons
-from app import settings
+
 
 
 class ApiTestCase(APITestCase):
@@ -46,11 +44,22 @@ class ApiTestCase(APITestCase):
         resp = self.client.post('/api/lessons_test/', data=information)
         self.assertEqual(resp.status_code, 404)
 
-    # def test_get_likes(self):
-    #     resp = self.client.get(f'/api/lessons/{self.new_lesson.id}/likes/')
-    #     self.assertEqual(resp.status_code, 200)
-    #
-    # def test_get_likes_fail(self):
-    #     resp = self.client.get(f'/api/lessons/{self.new_lesson.id + 22054}/likes/')
-    #     self.assertEqual(resp.status_code, 404)
+    def test_get_likes(self):
+        resp = self.client.get(f'/api/lessons/{self.new_lesson.id}/likes/')
+        self.assertEqual(resp.status_code, 200)
+
+    def test_get_likes_fail(self):
+        resp = self.client.get(f'/api/lessons/{self.new_lesson.id + 22054}/likes/')
+        self.assertEqual(resp.status_code, 404)
+
+    def test_get_likes_fail_two(self):
+        resp = self.client.get(f'/api/lessons/{self.new_lesson.id}/likes_/')
+        self.assertEqual(resp.status_code, 404)
+
+    # def test_like_lesson(self):
+    #          resp = self.client.post('/api/lessons/', data=information)
+    #          self.assertEqual(resp.status_code, 201)
+    #          like_exists = Like.objects.filter(lesson=self.lesson,
+    #                                            liker=self.user).exists()
+    #          self.assertTrue(like_exists)
 
