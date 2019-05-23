@@ -172,4 +172,8 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     )}
 
-
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.i.ua'
+EMAIL_HOST_USER = 'divnycha@i.ua'
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 465

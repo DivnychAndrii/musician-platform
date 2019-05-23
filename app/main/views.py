@@ -1,3 +1,4 @@
+from django.template.loader import render_to_string
 from rest_framework import viewsets, mixins
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.authentication import JWTAuthentication
