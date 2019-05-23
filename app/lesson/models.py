@@ -10,7 +10,6 @@ class Lessons(models.Model):
     lesson_file = models.ImageField(upload_to='images/', blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
-
     class Meta:
         db_table = 'lessons'
 
@@ -19,9 +18,8 @@ class Lessons(models.Model):
 
 
 class Like(models.Model):
-    lesson = models.ForeignKey(Lessons, on_delete=models.CASCADE)
+    lesson = models.ForeignKey(Lessons, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True, blank=True)
-
 
     class Meta:
         db_table = "likes"

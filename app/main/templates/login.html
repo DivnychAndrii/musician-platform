@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+<br><br><br><br>
+{% if not request.user.is_authenticated %}
+
+<div class="modal-body">
+  <form class='login-form'>
+    <style>
+    .login-form {
+      max-width:500px;
+      margin:auto;
+    }
+    </style>
+
+  <div class="form-group">
+    <label for="exampleInputEmail">Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter email">
+  </div>
+
+  <div class="form-group">
+    <label for="exampleInputPassword">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password" />
+  </div>
+
+  <button type="button"  class="btn btn-dark btn-lg btn-block login-btn mb-2 mt-2" id="but" >Log in</button>
+
+</form>
+{% endif %}
+
+
+<script>
+  $(document).ready(function(){
+    console.log(1);
+    $("#but").click(function(){
+      signup();
+    });
+        function signup(){
+            email = document.getElementById("exampleInputEmail").value;
+            password = document.getElementById("exampleInputPassword").value;
+            $("#erroremail").html("");
+            $("#errorpass").html("");
+            $.ajax({
+              type:"POST",
+              url:'/api/auth/token/',
+              data:{
+                  'email':email,
+                  'password':password,
+              },
+                success: function (data) {
+                    console.log(data);
+                    // if response - OK
+                    if (data.status_code == 200) {
+                        $window.sessionStorage.accessToken = response.body.access_token;
+                        // https://dev.to/perrydbucs/using-jwts-for-authentication-in-restful-applications-55hc  -  GOOD practice
+                        window.location.href = '/success'; // it's success page
+                    }
+                },
+                error: function (data) {
+                    // if response - Bad
+                    if (data.status_code == 403) {
+                        alert("Username or password is incorrect!");
+                    }
+                },
+                complete: function () {}
+            });
+        }
+    });
+</script>
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+  <br><br><br><br><br><br><br>
+{% endblock content %}

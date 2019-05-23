@@ -6,7 +6,7 @@ from django.views import View
 from django.core.mail import send_mail
 from rest_framework.utils import json
 
-from main.forms import UserRegisterForm, SignUpForm
+from main.forms import UserRegisterForm, LoginForm
 
 
 class HomePage(View):
@@ -16,23 +16,20 @@ class HomePage(View):
         return render(request, self.template, )
 
 
-def signup(request):
-    if request.method == 'POST':
-        # raise ValueError(form.data)
-        form = UserRegisterForm(data=request.POST.data)
-        if form.is_valid():
-            user = form.save()
-            user.is_active = True
-            user.save()
+class Register(View):
+    template = 'register.html'
 
-            return HttpResponse(json.dumps({"message": "Success"}),content_type="application/json")
-        else:
-           return HttpResponse(json.dumps({"message":form.errors}),content_type="application/json")
-
-    else:
-        form = SignUpForm()
+    def get(self, request):
+        form = UserRegisterForm()
         return render(request, 'register.html', {'form': form})
 
+
+class Login(View):
+    template = 'login.html'
+
+    def get(self, request):
+        form = LoginForm()
+        return render(request, 'login.html', {'form': form})
 
 def logout(request):
     logout(request)
