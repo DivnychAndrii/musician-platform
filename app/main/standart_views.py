@@ -21,17 +21,14 @@ class Register(View):
     template = 'register.html'
 
     def get(self, request):
-        form = UserRegisterForm()
-        return render(request, 'register.html', {'form': form})
-
+        return render(request, 'register.html')
 
 
 class Login(View):
     template = 'login.html'
 
     def get(self, request):
-        form = LoginForm()
-        return render(request, 'login.html', {'form': form})
+        return render(request, 'login.html')
 
 def logout(request):
     logout(request)
