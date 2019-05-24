@@ -1,8 +1,18 @@
 from rest_framework import serializers
+
+from main.models import User
 from .models import Lessons, Like
 
 
+class UserProfileSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('id', 'email', 'name',  'avatar')
+
+
 class LessonSerializer(serializers.ModelSerializer):
+    author = UserProfileSerializer()
 
     class Meta:
         model = Lessons

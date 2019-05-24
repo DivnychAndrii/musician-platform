@@ -31,36 +31,12 @@
         <a class="btn btn-dark" href="/register">Lesson on demand!</a>
       </div>
     </section>
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="card">
-          <div class="card-body text-center ">
-            <h5 class="card-title">Moonlight sonata</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-dark">Explore</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="card">
-          <div class="card-body text-center">
-            <h5 class="card-title">Wish you were here</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-dark">Explore</a>
-          </div>
-        </div>
-      </div>
+    <div id="lessons">
+
     </div>
 
-  <div>
-     <button class="apireq">click me </button>
-  </div>
-  <div id="jsonresp" style="margin-top: 100px">
-     <p><label> Title :</label> <span id="title"></span></p>
-     <p><label> Content :</label> <span id="content"></span></p>
-     <p><label> Author :</label> <span id="author"></span></p>
-  </div>
-  </body>
+
+
   <footer class="text-muted">
     <style>
     footer {
@@ -80,20 +56,32 @@
 </html>
 
 <script type="text/javascript">
-$('.apireq').click( function() {
-$.ajax({
-         url : "http://127.0.0.1:8000/api/lessons/3",
-         type:"GET",
-         dataType : "json",
-         beforeSend : function( xhr ) {
-                  var token = localStorage.getItem('JWTToken');
-                  xhr.setRequestHeader( 'Authorization', 'Bearer ' +  token.slice(1, token.length-1));
-         },
-         success : function (data) {
-                  $('#title').text( data.title );
-                  $('#content').text( data.content );
-                  $('#author').text( data.author.username );
+  $('.apireq').ready( function() {
+    $.ajax({
+       url : "http://127.0.0.1:8000/api/lessons/",
+           type:"GET",
+           dataType : "json",
+           beforeSend : function( xhr ) {
+                    var token = localStorage.getItem('JWTToken');
+                    xhr.setRequestHeader( 'Authorization', 'Bearer ' + token);
+           },
+           success : function (data) {
+                let lessons = [];
+                for (i = 0; i < data.count; ++i) {
+                  lessons.push(`<div class="row">
+                                <div class="col-sm-6">
+                                  <div class="card">
+                                    <div class="card-body text-center ">
+                                      <h5 class="card-title">`+ data.results[i].tittle+`</h5>
+                                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                      <a href="#" class="btn btn-dark">Explore</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              `)
                 }
-             });
-             })
+                $("#lessons").append(lessons);
+          }
+      })
+  })
 </script>
