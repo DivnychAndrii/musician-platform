@@ -6,7 +6,7 @@ class LessonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lessons
-        fields = ('id', 'tittle', 'lesson_file', 'pub_date', 'author')
+        fields = ('id', 'tittle', 'content', 'pub_date', 'author')
         read_only_fields = ('id',)
 
 
@@ -14,5 +14,5 @@ class LikesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Like
-        fields = ('id', 'user', )
-        read_only_fields = ('user', 'id',)
+        fields = ('lesson_id', 'user',)
+        read_only_fields = ('user', 'lesson_id',)

@@ -1,17 +1,19 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from app.pagination import ResultSetPagination
 from demand.models import Demand
+from demand.permissions import IsCreatorOrSender
 from demand.serializers import DemandSerializer
 
 
-class DemandViewSet(viewsets.ModelViewSet):
+class DemandViewSet(mixins.RetrieveModelMixin,
+                    mixins.CreateModelMixin,
+                    mixins.ListModelMixin,
+                    viewsets.GenericViewSet):
 
     serializer_class = DemandSerializer
     queryset = Demand.objects.get_queryset().order_by('id')
-    authentication_classes = (JWTAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [IsAuthenticated, IsCreatorOrSender]
     pagination_class = ResultSetPagination
     # renderer_classes = (JSONRenderer, )

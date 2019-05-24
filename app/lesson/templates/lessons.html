@@ -17,24 +17,50 @@
       <div class="navbar-nav ml-auto">
         <a class="nav-item nav-link" href="#">Lessons</a>
         <a class="nav-item nav-link active" href="/login">Log in</a>
+
       </div>
     </div>
   </nav>
   </header>
-  <main role="main">
+  <body>
     <section class="jumbotron text-center">
       <div class="container">
-        <h1 class="jumbotron-heading">Hi, I`m Andrew</h1>
-        <p class="lead text-muted">This is test homepage for capstone project</p>
-        <p class="lead text-muted">To have access to all features, please, register or log in, if you already have a account</p>
-        <p class="lead text-muted">Have a great day</p>
+        <h1 class="jumbotron-heading">Check all the lessons here</h1>
+        <h5 class="jumbotron-heading">Want to see something specific?</h5>
         <br>
-          <a class="btn btn-dark" href="/register">Register here!</a>
-          <br>
-          <br>
+        <a class="btn btn-dark" href="/register">Lesson on demand!</a>
       </div>
     </section>
-  </main>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body text-center ">
+            <h5 class="card-title">Moonlight sonata</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <a href="#" class="btn btn-dark">Explore</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body text-center">
+            <h5 class="card-title">Wish you were here</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <a href="#" class="btn btn-dark">Explore</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div>
+     <button class="apireq">click me </button>
+  </div>
+  <div id="jsonresp" style="margin-top: 100px">
+     <p><label> Title :</label> <span id="title"></span></p>
+     <p><label> Content :</label> <span id="content"></span></p>
+     <p><label> Author :</label> <span id="author"></span></p>
+  </div>
+  </body>
   <footer class="text-muted">
     <style>
     footer {
@@ -52,3 +78,22 @@
   </div>
 </footer>
 </html>
+
+<script type="text/javascript">
+$('.apireq').click( function() {
+$.ajax({
+         url : "http://127.0.0.1:8000/api/lessons/3",
+         type:"GET",
+         dataType : "json",
+         beforeSend : function( xhr ) {
+                  var token = localStorage.getItem('JWTToken');
+                  xhr.setRequestHeader( 'Authorization', 'Bearer ' +  token.slice(1, token.length-1));
+         },
+         success : function (data) {
+                  $('#title').text( data.title );
+                  $('#content').text( data.content );
+                  $('#author').text( data.author.username );
+                }
+             });
+             })
+</script>

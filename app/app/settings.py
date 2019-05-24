@@ -14,6 +14,8 @@ import os
 from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from app import email
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -172,8 +174,10 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     )}
 
+CELERY_BROKER_URL = 'redis://localhost'
+
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.i.ua'
-EMAIL_HOST_USER = 'divnycha@i.ua'
-EMAIL_HOST_PASSWORD = ''
-EMAIL_PORT = 465
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = email.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = email.EMAIL_HOST_PASSWORD
+EMAIL_PORT = 587

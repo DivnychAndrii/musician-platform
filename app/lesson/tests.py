@@ -1,16 +1,11 @@
-from django.contrib.auth import get_user_model
-from rest_framework.test import APITestCase
-from lesson.models import Lessons
+from app.user_for_tests import APITestUser
+from lesson.models import Lessons, Like
 
 
-
-class ApiTestCase(APITestCase):
+class ApiTestCase(APITestUser):
 
     def setUp(self):
-        user = get_user_model()
-        self.user = user.objects.create_user(name='andrewfortest',
-                                             email='andrew@test.com',
-                                             password='12345')
+        self.user = self.create_and_authorize(email='tessast@gmail.com', password='testpass132', name='test')
         self.new_lesson = Lessons(
                                 author=self.user,
                                 tittle='Test',
@@ -44,6 +39,12 @@ class ApiTestCase(APITestCase):
         resp = self.client.post('/api/lessons_test/', data=information)
         self.assertEqual(resp.status_code, 404)
 
+    def test_lesson_not_create_with_anonymous_user(self):
+        self.logout()
+        information = {'tittle': 'New_test', 'author': self.user.id}
+        resp = self.client.post("/api/lessons/", data=information)
+        self.assertEqual(resp.status_code, 401)
+
     def test_get_likes(self):
         resp = self.client.get(f'/api/lessons/{self.new_lesson.id}/likes/')
         self.assertEqual(resp.status_code, 200)
@@ -56,10 +57,9 @@ class ApiTestCase(APITestCase):
         resp = self.client.get(f'/api/lessons/{self.new_lesson.id}/likes_/')
         self.assertEqual(resp.status_code, 404)
 
-    # def test_like_lesson(self):
-    #          resp = self.client.post('/api/lessons/', data=information)
-    #          self.assertEqual(resp.status_code, 201)
-    #          like_exists = Like.objects.filter(lesson=self.lesson,
-    #                                            liker=self.user).exists()
-    #          self.assertTrue(like_exists)
-
+    def test_like_create_successful(self):
+        resp = self.client.post(f'/api/lessons/{self.new_lesson.id}/likes/toggle/')
+        self.assertEqual(resp.status_code, 201)
+        like_exists = Like.objects.filter(lesson=self.new_lesson,
+                                          user=self.user).exists()
+        self.assertTrue(like_exists)
