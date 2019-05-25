@@ -8,7 +8,7 @@ class Lessons(models.Model):
     tittle = models.CharField(max_length=50)
     pub_date = models.DateField(auto_now=True)
     content = models.TextField(max_length=400, blank=False, default='No content')
-    # lesson_file = models.ImageField(upload_to='images/', blank=True)
+    image = models.ImageField(upload_to='images/', blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:

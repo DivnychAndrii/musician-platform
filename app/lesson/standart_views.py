@@ -18,3 +18,10 @@ class OneLesson(View):
             'lesson_id': lesson_id,
         }
         return render(request, self.template, context)
+
+
+class CreateLesson(View):
+    template = 'create.html'
+
+    def get(self, request):
+        return render(request, self.template, )

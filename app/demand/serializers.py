@@ -9,7 +9,7 @@ class UserProfileSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('email',)
+        fields = ('name',)
         write_only_fields = ('id',)
 
 

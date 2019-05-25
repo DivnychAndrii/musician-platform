@@ -1,6 +1,7 @@
 from rest_framework import mixins, viewsets, status
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
+from rest_framework.parsers import FileUploadParser
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -17,6 +18,7 @@ class LessonViewSet(viewsets.ModelViewSet):
     authentication_classes = (JWTAuthentication,)
     permission_classes = (IsAuthenticatedOrReadOnly,)
     pagination_class = ResultSetPagination
+    parser_classes = (FileUploadParser,)
     # renderer_classes = (JSONRenderer, )
 
 

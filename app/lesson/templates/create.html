@@ -26,8 +26,9 @@
 <body>
   <section class="jumbotron text-center">
     <div class="container">
-      <h1 class="jumbotron-heading">By filling the form below you may request a lesson for specific song</h1>
-      <h5 class="jumbotron-heading">Musician will be notified and post the lesson as soon as possible</h5>
+      <h1 class="jumbotron-heading">Create new lesson</h1>
+      <br>
+      <h5 class="jumbotron-heading">You lesson will be available to all users on the mail lessons page</h5>
     </div>
   </section>
   <div class="modal-body">
@@ -42,25 +43,25 @@
     <div class="form-group">
       <label for="title">Title</label>
       <input  class="form-control" id="title" placeholder="Title">
-    </div>
-    <div class="form-group">
-      <label for="to_creator">Enter musician name </label>
-      <input  class="form-control" id="to_creator"  placeholder="Musician name">
-    </div>
-
-    <div class="form-group">
-      <label for="content">Describe you request</label>
-      <textarea name="textarea" id="content" rows="4" cols="68", placeholder="Request"></textarea>
+      <br>
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="lessonimage">
+        <label class="custom-file-label" for="customFile">Lesson image</label>
+      </div>
+      <br>
+      <br>
+      <label for="content">Lesson description</label>
+      <textarea name="textarea" id="content" rows="4" cols="68", placeholder="Description"></textarea>
       <style>
         textarea {
           resize: none;
           }
       </style>
-      <label for="from_user">Enter your name </label>
-      <input class="form-control" id="from_user" placeholder="Your name" />
+      <label for="from_user">Enter your email here</label>
+      <input class="form-control" id="author" placeholder="Your email" />
     </div>
 
-    <button  type="button"  class="btn btn-dark btn-lg btn-block login-btn mb-2 mt-2" id="demand" >Request</button>
+    <button  type="button"  class="btn btn-dark btn-lg btn-block login-btn mb-2 mt-2" id="create" >Post</button>
 
   </form>
 
@@ -83,33 +84,34 @@
 </footer>
 </html>
 
-<script >
-  $("#demand").click(function(){
-    demand();
-  });
-      function demand(){
-          title = document.getElementById("title").value;
-          to_creator = document.getElementById("to_creator").value;
 
-          content = document.getElementById("content").value;
-          from_user = document.getElementById("from_user").value;
-          $("#erroremail").html("");
-          console.log(1);
-          $.ajax({
+<script>
+    $('#create').click(function(e) {
+        var formData = new FormData();
+        formData.append('file', $('#image')[0].files[0]);
+        var token = localStorage.getItem('JWTToken');
+        title = document.getElementById("title").value;
+        content = document.getElementById("content").value;
+        author = document.getElementById("author").value;
+        $.ajax({
+            url: '/api/lessons/',
             type:"POST",
-            url:'/api/demands/',
-            headers: { "Authorization": 'Bearer ' + localStorage.getItem('JWTToken')},
             data:{
-                'from_user':from_user,
-                'title':title,
-                'to_creator':to_creator,
+                'tittle':title,
                 'content':content,
-
+                'author':author,
+                'image': formData
             },
-            success: function (data) {
-              console.log(data);
-              window.location.href = 'http://127.0.0.1:8000/lessons';
-              },
+            beforeSend : function( xhr ) {
+                 console.log(formData.get('file'));
+                 console.log(token);
+                 xhr.setRequestHeader('Authorization', 'Bearer ' +  token);
+            },
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function() {},
         });
-      }
+        e.preventDefault();
+    });
 </script>
