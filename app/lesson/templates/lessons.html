@@ -15,7 +15,8 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav ml-auto">
-        <a class="nav-item nav-link" href="#">Lessons</a>
+        <a class="nav-item nav-link" href="/profile/1">Your profile</a>
+        <a class="nav-item nav-link" href="/lessons">Lessons</a>
         <a class="nav-item nav-link active" href="/login">Log in</a>
 
       </div>
@@ -28,23 +29,22 @@
         <h1 class="jumbotron-heading">Check all the lessons here</h1>
         <h5 class="jumbotron-heading">Want to see something specific?</h5>
         <br>
-        <a class="btn btn-dark" href="/register">Lesson on demand!</a>
+        <a class="btn btn-dark" href="/demand">Lesson on demand!</a>
       </div>
     </section>
-    <div id="lessons">
 
-    </div>
+      <div id="lessons" class="row">
+      </div>
 
 
 
   <footer class="text-muted">
+    <br>
     <style>
     footer {
       position: absolute;
-      bottom: 0;
       left: 0;
       right: 0;
-      height:100px;
       }
    </style>
   <div class="container text-center">
@@ -67,17 +67,18 @@
            },
            success : function (data) {
                 let lessons = [];
-                for (i = 0; i < data.count; ++i) {
-                  lessons.push(`<div class="row">
+                console.log(data);
+                for (i = 0; i < data.count; i += 1) {
+                  lessons.push(`
                                 <div class="col-sm-6">
                                   <div class="card">
                                     <div class="card-body text-center ">
                                       <h5 class="card-title">`+ data.results[i].tittle+`</h5>
-                                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                      <a href="#" class="btn btn-dark">Explore</a>
+                                      <p class="card-text">`+ data.results[i].pub_date+`</p>
+                                      <p class="card-text">Published: `+ data.results[i].author.name+`</p>
+                                      <a href="`+ (parseInt(i)+1).toString() +`" class="btn btn-dark">Explore</a>
                                     </div>
                                   </div>
-                                </div>
                               `)
                 }
                 $("#lessons").append(lessons);

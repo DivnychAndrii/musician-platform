@@ -2,12 +2,12 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth.views import LogoutView
-
-from app import settings
-from lesson.standart_views import AllLessons
-from main.standart_views import HomePage, Register, Login
+from demand.standaart_views import Demand
+from lesson.standart_views import AllLessons, OneLesson
+from main.standart_views import HomePage, Register, Login, Profile
 from rest_framework.documentation import include_docs_urls
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urls = [
     path('auth/', include('main.urls')),
@@ -22,6 +22,9 @@ urlpatterns = [
     path('register/', Register.as_view(), name='register'),
     path('login/', Login.as_view(), name='login'),
     path('lessons/', AllLessons.as_view(), name='lessons_list'),
+    path('lessons/<int:lesson_id>', OneLesson.as_view()),
+    path('demand/', Demand.as_view(), name='demand'),
+    path('profile/<int:user_id>/', Profile.as_view(), name='profile'),
     url(r'^logout/$', LogoutView.as_view(), name='logout'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

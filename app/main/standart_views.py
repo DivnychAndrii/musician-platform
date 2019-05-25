@@ -19,15 +19,24 @@ class HomePage(View):
 
 
 class Register(View):
-    template = 'register.html'
 
     def get(self, request):
 
         return render(request, 'register.html')
 
 
+class Profile(View):
+
+    def get(self, request, **kwargs):
+        user_id = kwargs['user_id']
+        context = {
+            'user_id': user_id,
+        }
+
+        return render(request, 'profile.html', context)
+
+
 class Login(View):
-    template = 'login.html'
 
     def get(self, request):
         return render(request, 'login.html')
