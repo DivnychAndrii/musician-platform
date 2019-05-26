@@ -5,9 +5,9 @@ class IsGetOrAuthenticated(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
 
-        METHODS = ('GET', 'HEAD', 'OPTIONS')
+        methods = ('GET', 'HEAD', 'OPTIONS')
 
-        if request.method in METHODS:
+        if request.method in methods:
             return True
 
         return obj.id == request.user.id

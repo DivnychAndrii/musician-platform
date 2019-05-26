@@ -28,7 +28,7 @@
     <div class="container">
       <h1 class="jumbotron-heading">Create new lesson</h1>
       <br>
-      <h5 class="jumbotron-heading">You lesson will be available to all users on the mail lessons page</h5>
+      <h5 class="jumbotron-heading">You lesson will be available to all users on the main lessons page</h5>
     </div>
   </section>
   <div class="modal-body">
@@ -44,74 +44,40 @@
       <label for="title">Title</label>
       <input  class="form-control" id="title" placeholder="Title">
       <br>
-      <div class="custom-file">
-        <input type="file" class="custom-file-input" id="lessonimage">
-        <label class="custom-file-label" for="customFile">Lesson image</label>
-      </div>
-      <br>
-      <br>
       <label for="content">Lesson description</label>
-      <textarea name="textarea" id="content" rows="4" cols="68", placeholder="Description"></textarea>
+        <textarea name="textarea" id="content" rows="4" cols="68", placeholder="Description"></textarea>
       <style>
         textarea {
           resize: none;
           }
       </style>
-      <label for="from_user">Enter your email here</label>
-      <input class="form-control" id="author" placeholder="Your email" />
     </div>
-
     <button  type="button"  class="btn btn-dark btn-lg btn-block login-btn mb-2 mt-2" id="create" >Post</button>
-
   </form>
 
 
-  <footer class="text-muted">
-    <style>
-    footer {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height:0;
-      }
-   </style>
-  <div class="container text-center">
-    <p>© Copyright Andrii Divnych {% now "Y" %}</p>
-    <p class="float-right">
-    <p>Oh hi:)!</p>
-  </div>
-</footer>
-</html>
-
-
-<script>
-    $('#create').click(function(e) {
-        var formData = new FormData();
-        formData.append('file', $('#image')[0].files[0]);
-        var token = localStorage.getItem('JWTToken');
-        title = document.getElementById("title").value;
-        content = document.getElementById("content").value;
-        author = document.getElementById("author").value;
-        $.ajax({
-            url: '/api/lessons/',
-            type:"POST",
-            data:{
-                'tittle':title,
-                'content':content,
-                'author':author,
-                'image': formData
-            },
-            beforeSend : function( xhr ) {
-                 console.log(formData.get('file'));
-                 console.log(token);
-                 xhr.setRequestHeader('Authorization', 'Bearer ' +  token);
-            },
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function() {},
-        });
-        e.preventDefault();
+  <script >
+    $("#create").click(function(){
+      create();
     });
-</script>
+        function create(){
+            title = document.getElementById("title").value;
+            content = document.getElementById("content").value;
+            author = localStorage.getItem('Email')
+            console.log(1);
+            $.ajax({
+              type:"POST",
+              headers: { "Authorization": 'Bearer ' + localStorage.getItem('JWTToken')},
+              url:'/api/lessons/',
+              data:{
+                  'tittle':title,
+                  'content':content,
+                  'author':author,
+              },
+              success: function (data) {
+                console.log(data);
+                window.location.href = 'http://127.0.0.1:8000/lessons';
+                },
+          });
+        }
+  </script>

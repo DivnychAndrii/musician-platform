@@ -9,6 +9,7 @@ from rest_framework.documentation import include_docs_urls
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urls = [
     path('auth/', include('main.urls')),
     path('', include('lesson.urls'), name="lessons"),
@@ -32,4 +33,3 @@ urlpatterns = [
     path('profile/<int:user_id>/', Profile.as_view(), name='profile'),
     url(r'^logout/$', LogoutView.as_view(), name='logout'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-

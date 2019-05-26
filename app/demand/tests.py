@@ -24,12 +24,12 @@ class ApiTestCase(APITestUser):
 
     def test_post_demand(self):
         information = {'title': 'New_test',
-                       'from_user': self.user.id,
+                       'from_user': self.user.email,
                        'content': 'test_content',
-                       'to_creator': self.user.id}
-
+                       'to_creator': self.user.email}
         resp = self.client.post('/api/demands/', data=information)
         self.assertEqual(resp.status_code, 201)
+        self.assertEqual(resp.data['from_user'], self.user.email)
 
     """GET tests"""
 
@@ -63,4 +63,3 @@ class ApiTestCase(APITestUser):
         new_demand.save()
         resp = self.client.get(f'/api/demands/{new_demand.id + 1}/')
         self.assertEqual(resp.status_code, 404)
-

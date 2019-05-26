@@ -31,7 +31,7 @@
         <h5 class="jumbotron-heading">Feel free to request a lesson or upload by yourself</h5>
         <br>
         <a class="btn btn-dark" href="/demand">Lesson on demand!</a>
-        <a class="btn btn-dark" href="/lessons/create">Upload a lesson! </a>
+        <a class="btn btn-danger" href="/lessons/create">Upload a lesson! </a>
       </div>
     </section>
 
@@ -77,7 +77,7 @@
                                     <div class="card-body text-center ">
                                       <h5 class="card-title">`+ data.results[i].tittle+`</h5>
                                       <p class="card-text">`+ data.results[i].pub_date+`</p>
-                                      <p class="card-text">Published: `+ data.results[i].author.name+`</p>
+                                      <p class="card-text">Published: `+ data.results[i].author+`</p>
                                       <a href="`+ (parseInt(i)+1).toString() +`" class="btn btn-dark">Explore</a>
                                     </div>
                                   </div>

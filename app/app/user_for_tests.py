@@ -28,3 +28,7 @@ class APITestUser(APITestCase):
 
     def logout(self, **additional_headers):
         self.client.credentials(**additional_headers)
+
+# coverage run --source='.' manage.py test
+# coverage erase
+# coverage report

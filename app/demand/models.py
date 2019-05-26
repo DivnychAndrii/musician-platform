@@ -14,4 +14,3 @@ class Demand(models.Model):
 
     def __str__(self):
         return f'{self.from_user.name} requested a lesson from {self.to_creator} with title {self.title}'
-

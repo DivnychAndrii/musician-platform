@@ -15,7 +15,6 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav ml-auto">
-        <a class="nav-item nav-link" href="#">Lessons</a>
         <a class="nav-item nav-link active" href="/login">Log in</a>
       </div>
     </div>
@@ -94,6 +93,7 @@
                     // if response - OK
                     localStorage.setItem('JWTToken', data.access);
                     localStorage.setItem('Refresh', data.refresh);
+                    localStorage.setItem('Email', email);
                     window.location.href = 'http://127.0.0.1:8000/lessons/'
                         // https://dev.to/perrydbucs/using-jwts-for-authentication-in-restful-applications-55hc  -  GOOD practice
                     // window.location.href = '/success'; // it's success page

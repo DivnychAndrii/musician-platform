@@ -8,11 +8,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('email', 'name')
+        fields = ('email',)
 
 
 class LessonSerializer(serializers.ModelSerializer):
-    author = UserProfileSerializer()
+    author = serializers.SlugRelatedField(slug_field='email', queryset=User.objects.all())
 
     class Meta:
         model = Lessons

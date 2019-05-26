@@ -44,8 +44,8 @@
       <input  class="form-control" id="title" placeholder="Title">
     </div>
     <div class="form-group">
-      <label for="to_creator">Enter musician name </label>
-      <input  class="form-control" id="to_creator"  placeholder="Musician name">
+      <label for="to_creator">Enter musician email </label>
+      <input  class="form-control" id="to_creator"  placeholder="Musician email">
     </div>
 
     <div class="form-group">
@@ -56,8 +56,6 @@
           resize: none;
           }
       </style>
-      <label for="from_user">Enter your name </label>
-      <input class="form-control" id="from_user" placeholder="Your name" />
     </div>
 
     <button  type="button"  class="btn btn-dark btn-lg btn-block login-btn mb-2 mt-2" id="demand" >Request</button>
@@ -90,9 +88,8 @@
       function demand(){
           title = document.getElementById("title").value;
           to_creator = document.getElementById("to_creator").value;
-
           content = document.getElementById("content").value;
-          from_user = document.getElementById("from_user").value;
+          from_user = localStorage.getItem('Email')
           $("#erroremail").html("");
           console.log(1);
           $.ajax({

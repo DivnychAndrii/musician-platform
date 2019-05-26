@@ -28,10 +28,29 @@
           <h1  >Welcome </h1>
           <h4>You may review your profile here</h4>
           <br>
-          <br>
           <h5><label>Your email:</label> <span id="email"></span></h5>
           <h5><label> Your name:</label> <span id="name"></span></h5>
-          <img id="avatar" src=""></img>
+          <img height="300" width="350" id="avatar" src=""></img>
+          <br>
+          <br>
+          <h5>You may change default profile picture here</h5>
+          <br>
+          <div id="files" method="post" enctype="multipart/form-data">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="lessonimage">
+              <label class="custom-file-label" for="customFile">image</label>
+              <br>
+              <br>
+              <button  type="button"  class="btn btn-danger" id="upload" >Change</button>
+            </div>
+              <style media="screen">
+                .custom-file{
+                  max-width:400px;
+                  margin:auto;
+                }
+              </style>
+          </div>
+          <br>
         </div>
       </div>
     </main>
@@ -61,13 +80,32 @@
           dataType : "json",
           headers: { "Authorization": 'Bearer ' + localStorage.getItem('JWTToken')},
           success : function (data) {
-                   console.log(data.avatar)
                    $('#name').text( data.name );
                    $('#email').text( data.email );
                    $("#avatar").attr("src",data.avatar);
-                   console.log(avatar )
                  }
               })
  </script>
-</head>
-<body>
+
+ <script >
+   $("#upload").click(function(){
+     create();
+   });
+       function create(){
+           var formData = new FormData($(this)[0]);
+           console.log(1);
+           $.ajax({
+             type:"PUT",
+             headers: { "Authorization": 'Bearer ' + localStorage.getItem('JWTToken')},
+             url:'http://127.0.0.1:8000/api/auth/{{ user_id }}/upload_file',
+             data: formData,
+             cache: false,
+            contentType: false,
+            processData: false,
+             success: function (data) {
+               console.log(data);
+               window.location.href = 'http://127.0.0.1:8000/lessons';
+               },
+         });
+       }
+ </script>

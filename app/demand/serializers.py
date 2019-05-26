@@ -1,4 +1,4 @@
-from django.contrib.auth import get_user_model
+from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
 from demand.models import Demand
@@ -14,12 +14,10 @@ class UserProfileSerializer(ModelSerializer):
 
 
 class DemandSerializer(ModelSerializer):
-
-    from_user = UserProfileSerializer()
-    to_creator = UserProfileSerializer()
+    from_user = serializers.SlugRelatedField(slug_field='email', queryset=User.objects.all())
+    to_creator = serializers.SlugRelatedField(slug_field='email', queryset=User.objects.all())
 
     class Meta:
         model = Demand
         fields = ('id', 'from_user', 'title', 'to_creator', 'content')
         read_only_fields = ('id',)
-

@@ -1,14 +1,12 @@
 from rest_framework import mixins, viewsets, status
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
-from rest_framework.parsers import FileUploadParser
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from app.pagination import ResultSetPagination
 from lesson.models import Lessons, Like
 from lesson.serializers import LessonSerializer, LikesSerializer
-from .permissions import IsGetOrAuthenticated
 
 
 class LessonViewSet(viewsets.ModelViewSet):
@@ -18,7 +16,6 @@ class LessonViewSet(viewsets.ModelViewSet):
     authentication_classes = (JWTAuthentication,)
     permission_classes = (IsAuthenticatedOrReadOnly,)
     pagination_class = ResultSetPagination
-    parser_classes = (FileUploadParser,)
     # renderer_classes = (JSONRenderer, )
 
 
@@ -26,7 +23,7 @@ class LikeViewSet(mixins.ListModelMixin,
                   viewsets.GenericViewSet):
 
     serializer_class = LikesSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAuthenticated,)
     pagination_class = ResultSetPagination
 
     def get_queryset(self):

@@ -1,5 +1,3 @@
-import json
-
 from app.user_for_tests import APITestUser
 from lesson.models import Lessons, Like
 
@@ -26,11 +24,11 @@ class ApiTestCase(APITestUser):
         resp = self.client.get(f'/api/lessons/{self.new_lesson.id +1000}/')
         self.assertEqual(resp.status_code, 404)
 
-    # def test_lesson_creation(self):
-    #     author = json.dumps({'email': self.user.email, 'name': self.user.name})
-    #     information = {'tittle': 'New_test', 'author': author}
-    #     resp = self.client.post('/api/lessons/', data=information)
-    #     self.assertEqual(resp.status_code, 201)
+    def test_lesson_creation(self):
+        information = {'tittle': 'New_test', 'author': self.user.email}
+        resp = self.client.post('/api/lessons/', data=information)
+        self.assertEqual(resp.status_code, 201)
+        self.assertEqual(resp.data['author'], self.user.email)
 
     def test_lesson_creation_fail_bad_request(self):
         information = {'tittle': 'New_test', 'fake_author': self.user.id}
@@ -66,3 +64,19 @@ class ApiTestCase(APITestUser):
         like_exists = Like.objects.filter(lesson=self.new_lesson,
                                           user=self.user).exists()
         self.assertTrue(like_exists)
+
+    def test_error_anon_user(self):
+        self.logout()
+        resp = self.client.post(f'/api/lessons/{self.new_lesson.id}/likes/toggle/')
+        self.assertEqual(resp.status_code, 401)
+
+    def test_get_all_likes_from_lesson(self):
+        self.client.post(f'/api/lessons/{self.new_lesson.id}/likes/toggle/')
+        resp = self.client.get(f'/api/lessons/{self.new_lesson.id}/likes/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.data['count'], 1)
+
+    def test_get_error_if_anon_user_get_likes(self):
+        self.logout()
+        resp = self.client.get(f'/api/lessons/{self.new_lesson.id}/likes/')
+        self.assertEqual(resp.status_code, 401)
