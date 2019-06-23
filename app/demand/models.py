@@ -3,6 +3,7 @@ from django.db import models
 from main.models import User
 
 
+
 class Demand(models.Model):
     from_user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='user')
     to_creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creator')
@@ -14,3 +15,8 @@ class Demand(models.Model):
 
     def __str__(self):
         return f'{self.from_user.name} requested a lesson from {self.to_creator} with title {self.title}'
+
+    # def email_notification(self, instance, signal, *args, **kwargs):
+    #     notify_author.delay(instance.title, instance.body,
+    #                         instance.recipient.id,
+    #                         instance.sender.id)
